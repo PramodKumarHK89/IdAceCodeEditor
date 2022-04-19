@@ -4,17 +4,17 @@
 
 - Go to the [release tab](https://github.com/PramodKumarHK89/IdAceCodeEditor/releases) and download the latest IdAceCodeEditor_DATE_PREFIX.zip file. Please refer the below screenshot 
  
-  ![image](https://user-images.githubusercontent.com/62542910/163815680-47e832e8-b4ad-4356-817c-1d41ffeed774.png)
+  ![image](https://user-images.githubusercontent.com/62542910/163988441-c29e7d9d-6503-4438-81d0-ef48a90cdd61.png)
   
 - Navigate to the downloaded folder to locate the zip file. You may want to make sure that, file is unblocked before unzipping it to a folder.Please refer below screenshot.
   
-  ![image](https://user-images.githubusercontent.com/62542910/163815521-fa009689-e1b7-4227-9730-d545141ddbe3.png)
+  ![image](https://user-images.githubusercontent.com/62542910/163988784-5a11a3a1-4d4e-445d-a356-ecbda87b2d37.png)
   
 - Extract the zip file to a local folder. To avoid path length limitations on Windows, we recommend extracting it into a directory near the root of your drive. Please refer below screenshot.
 
   ![image](https://user-images.githubusercontent.com/62542910/163816428-98c1bbf8-c1da-4288-9824-f71aa49dd87f.png)
 
-- Navigate to the folder where the files are unzipped. Locate the `MicrosoftIdentityPlatformEditor.exe` file and double click on it to execute it. Please refer the below screenshot.
+- Navigate to the folder where the files are unzipped. Locate the `IdAceCodeEditor.exe` file and double click on it to execute it. Please refer the below screenshot.
 
   ![image](https://user-images.githubusercontent.com/62542910/163816900-a9353835-764b-4b7c-ab12-f9250ebd2888.png)
 
