@@ -1,1 +1,83 @@
+name: Publish and Release
+
+on:
+  push:
+    tags:
+      - 'v*' # This workflow will trigger whenever you push with a tag v
+jobs:
+  build_windows:
+    runs-on: windows-latest
+    env:
+      Solution_Name: IdAceCodeEditor.sln
+      Project_file: IdAceCodeEditor/IdAceCodeEditor.csproj
+      Target_Platform: win-x64
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.x
+
+    # Restore the application to populate the obj folder with RuntimeIdentifiers
+    - name: Restore the application
+      run: dotnet restore ${{ env.Solution_Name}} --runtime ${{ env.Target_Platform }}
+     
+    - name: Build
+      run: dotnet build ${{ env.Solution_Name}} -c Release --no-restore
+      
+    - name: publish
+      run: dotnet publish ${{ env.Solution_Name}} -c Release --self-contained -r ${{ env.Target_Platform }}
+        
+    # Upload build artifacts: https://github.com/marketplace/actions/upload-a-build-artifact
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ env.Target_Platform }}
+        path: IdAceCodeEditor/bin/Release/netcoreapp3.1/${{ env.Target_Platform }}/publish/IdAceCodeEditor.exe
+
+# ********************** GitHub Release ************************* #
+
+    # This creates a unique version number that can be used for the tag that is based on date and workflow run number (ex: 2020.805.1.0)
+    - uses: Amadevus/pwsh-script@v2
+      id: version-creator
+      with:
+        script: |
+          $buildDay = Get-Date -Format "yyyy.Mdd"
+          $ver = $buildDay + "." + $env:GITHUB_RUN_NUMBER + ".0"
+          Set-ActionVariable MY_VERSION $ver
+
+    # Create a new gitHub rlease. See https://github.com/actions/create-release
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ env.MY_VERSION }}
+        release_name: "MicrosoftIdentityPlatform Editor ${{ env.MY_VERSION }}"
+
+    # ZIPs up the contents of the /publish/ folder
+    - name: Create ZIP file
+      run: Compress-Archive -Path ${{ env.source_path }} -DestinationPath ${{ env.destination_path }}
+      env:
+        source_path: D:/a/IdAceCodeEditor/IdAceCodeEditor/IdAceCodeEditor/bin/Release/netcoreapp3.1/${{ env.Target_Platform }}/publish/*
+        destination_path: D:/a/IdAceCodeEditor/IdAceCodeEditor/IdAceCodeEditor/bin/Release/netcoreapp3.1/${{ env.Target_Platform }}/publish/IdAceCodeEditor.zip
+
+    # Upload ZIP to the release - See https://github.com/actions/upload-release-asset
+    - name: Uploading SideLoad Release asset
+      id: upload-sideload-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: D:/a/IdAceCodeEditor/IdAceCodeEditor/IdAceCodeEditor/bin/Release/netcoreapp3.1/${{ env.Target_Platform }}/publish/IdAceCodeEditor.zip
+        asset_name: "MicrosoftIdentityPlatform Editor ${{ env.MY_VERSION }} zip"
+        asset_content_type: application/zip
 
