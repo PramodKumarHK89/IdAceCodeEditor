@@ -1,0 +1,64 @@
+﻿<Window x:Class="IdAceCodeEditor.Prerequisites"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IdAceCodeEditor"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Title="Closing Summary" Height="450" Width="800">
+    <Grid Margin="0,0,0,-11">
+        <TextBlock HorizontalAlignment="Left" Height="50" Margin="20,22,0,0" 
+                   TextWrapping="Wrap" FontWeight="Bold" Text="Prerequisites" VerticalAlignment="Top" Width="205"/>
+        <ListView Margin="25,47,0,18" Name="lvUsers">
+            <ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsInstalled}"
+                      Value="True">
+                            <Setter Property="Background"
+                  Value="LightGreen" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Component" Width="120" DisplayMemberBinding="{Binding Component}" />
+                    <GridViewColumn Header="Is Installed" Width="100" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsInstalled}">
+                                </CheckBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Download Link" Width="auto" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+      <Hyperlink NavigateUri="{Binding Path=DownloadLink}" RequestNavigate="Hyperlink_OnRequestNavigate">
+        <TextBlock Text="{Binding Path=DownloadLink}"/>
+      </Hyperlink>
+    </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Button Content="Click here to open the project folder" HorizontalAlignment="Left" Height="30" Margin="495,227,0,0" VerticalAlignment="Top" Width="260" Click="Button_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="26,216,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="66" Width="454">
+            You are good to go. Please click on the button on the right bottom of this window to get started.You can find setp-step instructions at 
+            <Hyperlink x:Name="readme" NavigateUri="https://docs.microsoft.com/en-us/azure/active-directory/develop/" RequestNavigate="readme_RequestNavigate">                
+                ReadME 
+            </Hyperlink>
+             to understand how this sample works. Additionally, follow the tutorial at
+            
+              <Hyperlink x:Name="msdnLink" NavigateUri="https://docs.microsoft.com/en-us/azure/active-directory/develop/" RequestNavigate="msdnLink_RequestNavigate">                
+                Quickstart 
+            </Hyperlink>
+        </TextBlock>
+    </Grid>
+</Window>
