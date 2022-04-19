@@ -60,7 +60,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ env.MY_VERSION }}
-        release_name: "MicrosoftIdentityPlatform Editor ${{ env.MY_VERSION }}"
+        release_name: "IdAceCodeEditor ${{ env.MY_VERSION }}"
 
     # ZIPs up the contents of the /publish/ folder
     - name: Create ZIP file
@@ -78,6 +78,6 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: D:/a/IdAceCodeEditor/IdAceCodeEditor/IdAceCodeEditor/bin/Release/netcoreapp3.1/${{ env.Target_Platform }}/publish/IdAceCodeEditor.zip
-        asset_name: "MicrosoftIdentityPlatform Editor ${{ env.MY_VERSION }} zip"
+        asset_name: "IdAceCodeEditor ${{ env.MY_VERSION }} zip"
         asset_content_type: application/zip
 
