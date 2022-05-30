@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <BaseOutputPath>C:\t</BaseOutputPath>
+    <BaseOutputPath>bin</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
