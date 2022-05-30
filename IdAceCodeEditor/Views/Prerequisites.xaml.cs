@@ -24,21 +24,21 @@ namespace IdAceCodeEditor
         {
             InitializeComponent();
         }
-        string mAppType, mReadmeLink, mPath, mquickstartLink;
-
-        public Prerequisites(string appType, string readmeLink, string path, string quickLink)
+        string mAppType, mReadmeLink, mPath, mquickstartLink;     
+        List<Prerequisite> mPrerequisiteList;
+        public Prerequisites(string appType,
+            string readmeLink,
+            string quickLink,
+            string localFolderPath,
+            List<Prerequisite> prerequisites)
         {
             mAppType = appType;
-            mReadmeLink = readmeLink;
-            mPath = path;
+            mReadmeLink = readmeLink;            
             mquickstartLink = quickLink;
+            mPath = localFolderPath;
+            mPrerequisiteList = prerequisites;
             InitializeComponent();
         }
-
-        const string ASPNET = "Microsoft.AspNetCore.App";
-        const string NETCORE = "Microsoft.NETCore.App";
-        const string DESKTOP = "Microsoft.WindowsDesktop.App";
-
         private bool CheckIfVSCodeInstlled()
         {
             var paths = Environment.GetEnvironmentVariable("path");
@@ -95,17 +95,37 @@ namespace IdAceCodeEditor
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             ObservableCollection<Components> items = new ObservableCollection<Components>();
-            if (mAppType.Equals("DOTNETCORE"))
-                items.Add(new Components() { Component = "Visual Studio", IsInstalled = CheckIfVSCodeInstlled(), DownloadLink = "https://visualstudio.microsoft.com/downloads/" });
 
-            items.Add(new Components() { Component = "VS code", IsInstalled = CheckIfVSCodeInstlled(), DownloadLink = "https://code.visualstudio.com/download" });
-            if (mAppType.Equals("DOTNETCORE"))
-                items.Add(new Components() { Component = ".NET core SDK", IsInstalled = CheckIfDotNetCoreInstalled(), DownloadLink = "https://dotnet.microsoft.com/en-us/download/dotnet/3.1" });
+            foreach (var item in mPrerequisiteList)
+            {
+                items.Add(new Components() { Component = item.Name, 
+                    IsInstalled = CheckInstallation(item.Name),
+                    DownloadLink = item.DownloadLink});
 
-            if (mAppType.Equals("ANGULAR"))
-                items.Add(new Components() { Component = "NPM", IsInstalled = CheckIfNPMInstalled(), DownloadLink = "https://nodejs.org/en/download/" });
-
+            }           
             lvUsers.ItemsSource = items;
+        }
+        private bool CheckInstallation(string app)
+        {
+            bool bRet = false;
+            switch (app)
+            {
+                case "VSCode":
+                    bRet = CheckIfVSCodeInstlled();
+                    break;
+                case "NPM":
+                    bRet = CheckIfNPMInstalled();
+                    break;
+                case "DotNetCore":
+                    bRet = CheckIfDotNetCoreInstalled();
+                    break;
+                case "VisualStudio":
+                    bRet = false;
+                    break;
+                default:
+                    break;
+            }
+            return bRet;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
