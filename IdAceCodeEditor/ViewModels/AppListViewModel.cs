@@ -11,7 +11,7 @@ namespace IdAceCodeEditor
 {
     public class AppListViewModel
     {
-        string[] CREATESCOPES = new string[] { "user.read", "Application.ReadWrite.All" };
+        string[] CREATESCOPES = new string[] { "Application.ReadWrite.All" };
 
         public Project _project;
         Dictionary<string, string> _persistData;
