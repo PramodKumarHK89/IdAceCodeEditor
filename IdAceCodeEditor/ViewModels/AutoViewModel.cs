@@ -22,8 +22,11 @@ namespace IdAceCodeEditor.ViewModels
 
             foreach (var item in SampleProject.PortalSettings.GetType().GetProperties())
             {
-                if(item.PropertyType.Name.Equals("String"))
-                    AppListSettings.Add(new AppSettingList(item.Name, item.GetValue(SampleProject.PortalSettings, null).ToString()));
+                if (item.PropertyType.Name.Equals("String"))
+                {
+                    if(item.GetValue(SampleProject.PortalSettings, null)!=null)
+                        AppListSettings.Add(new AppSettingList(item.Name, item.GetValue(SampleProject.PortalSettings, null).ToString()));
+                }
             }
         }
         private ICommand _createAppCommand;

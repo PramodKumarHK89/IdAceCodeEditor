@@ -217,7 +217,16 @@ namespace IdAceCodeEditor
 
                     await graphClient.Applications[content.Id]
                    .Request()
-                   .UpdateAsync(content);                    
+                   .UpdateAsync(content);
+
+                    var servicePrincipal = new ServicePrincipal
+                    {
+                        AppId = content.AppId,
+                    };
+
+                    await graphClient.
+                        ServicePrincipals.
+                        Request().AddAsync(servicePrincipal);                        
                 }
                 return content;
             }

@@ -55,6 +55,8 @@ namespace IdAceCodeEditor
             {
                 p[dest] = value;
             }
+            else
+                jObject[dest] = value;
 
             string newJson = JsonConvert.SerializeObject(jObject);
 
