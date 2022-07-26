@@ -157,9 +157,9 @@ namespace IdAceCodeEditor
                         break;
                     case "Desktop":
                         application.PublicClient = new Microsoft.Graph.PublicClientApplication
-                        {
-                            
+                        {                            
                             RedirectUris = _project.PortalSettings.RedirectUri.Split(" ")
+                            
                         };
                         break;
                     default:
@@ -171,6 +171,15 @@ namespace IdAceCodeEditor
                     .Request()
                     .AddAsync(application);
 
+                if(!string.IsNullOrEmpty(_project.PortalSettings.BrokeredUri))
+                {
+                    _project.PortalSettings.BrokeredUri = String.Format(_project.PortalSettings.BrokeredUri, content.AppId);
+                    content.PublicClient.RedirectUris = content.PublicClient.RedirectUris.Concat(_project.PortalSettings.BrokeredUri.Split(" "));
+                   
+                    await graphClient.Applications[content.Id]
+                            .Request()
+                            .UpdateAsync(content);
+                }
                 string key = string.Format("persistdata:Projects[{0}]", _project.Order);
                 _persistData.Add(key + ".App.AppId", content.AppId);
 

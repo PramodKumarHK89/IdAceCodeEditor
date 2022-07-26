@@ -10,6 +10,7 @@ namespace IdAceCodeEditor
         public string SignInAudience { get; set; }
         public string AppType { get; set; }
         public string RedirectUri { get; set; }
+        public string BrokeredUri { get; set; }
         public string IsHybridFlow { get; set; }
         public string IsDeviceCodeFlow { get; set; }
         public string SecretName{ get; set; }
