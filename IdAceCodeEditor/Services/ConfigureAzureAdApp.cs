@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Graph;
 using System.Net.Http.Headers;
 using System.Windows;
+using IdAceCodeEditor.Views;
 
 namespace IdAceCodeEditor
 {
@@ -37,6 +38,7 @@ namespace IdAceCodeEditor
                 try
                 {
                     authResult = await app.AcquireTokenInteractive(scope)
+                        .WithLoginHint("pramkum@pramkumlab.onmicrosoft.com")
                         .WithAccount(firstAccount)
                         .WithParentActivityOrWindow(new WindowInteropHelper(window).Handle)
                         .WithPrompt(Microsoft.Identity.Client.Prompt.SelectAccount)
@@ -87,7 +89,52 @@ namespace IdAceCodeEditor
                 return null;
             }                
         }
-            public async Task<Application> CreateAppRegistration()
+        public async Task<bool> PostRegupdates()
+        {
+            try
+            {
+                var graphClient = new GraphServiceClient("https://graph.microsoft.com/v1.0", new DelegateAuthenticationProvider(async (requestMessage) =>
+                {
+                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+                }));
+
+                if (_project.PostRegUpdates != null)
+                {
+                    foreach (var item in _project!.PostRegUpdates)
+                    {
+                        string source = "", dest = "";
+                        if (item.Source.StartsWith("persistdata:"))
+                        {
+                            _persistData.TryGetValue(item.Source, out source);
+                        }
+                        if (item.Destination.StartsWith("persistdata:"))
+                        {
+                            _persistData.TryGetValue(item.Destination, out dest);
+                        }
+                        var appObject = await graphClient.Applications[source]
+                        .Request().GetAsync();
+
+                        if (item.Name.Equals("knownClientApplications"))
+                        {
+                            appObject.Api.KnownClientApplications = new List<Guid>() { new Guid(dest) };
+                        }
+                        if (item.Name.Equals("PreAuthorizedApplications"))
+                        {
+                            appObject.Api.PreAuthorizedApplications = new List<PreAuthorizedApplication>() { new PreAuthorizedApplication() { AppId = dest } };
+                        }
+                        await graphClient.Applications[appObject.Id]
+                      .Request()
+                      .UpdateAsync(appObject);
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public async Task<Application> CreateAppRegistration()
         {
             var httpClient = new System.Net.Http.HttpClient();
             bool isHybrid = false;
@@ -114,7 +161,7 @@ namespace IdAceCodeEditor
                     {
                         string value;
                         _persistData.TryGetValue(item.ResourceAppId, out value);
-                        scopeResource.ResourceAppId=value;
+                        scopeResource.ResourceAppId = value;
                     }
                     else
                         scopeResource.ResourceAppId = item.ResourceAppId;
@@ -130,13 +177,13 @@ namespace IdAceCodeEditor
                         }
                         else
                             scope.Id = new Guid(scp.Id);
-                     
+
                         scope.Type = scp.Type;
                         raList.Add(scope);
                     }
-                    scopeResource.ResourceAccess= raList;
+                    scopeResource.ResourceAccess = raList;
                     scopeList.Add(scopeResource);
-                }               
+                }
 
                 application.RequiredResourceAccess = scopeList;
 
@@ -145,21 +192,21 @@ namespace IdAceCodeEditor
                     case "Web":
                         application.Web = new WebApplication
                         {
-                            RedirectUris = _project.PortalSettings.RedirectUri.Split(" "),                            
+                            RedirectUris = _project.PortalSettings.RedirectUri.Split(" "),
                             ImplicitGrantSettings = new ImplicitGrantSettings { EnableIdTokenIssuance = isHybrid }
                         };
                         break;
                     case "Spa":
                         application.Spa = new SpaApplication
-                        {                          
+                        {
                             RedirectUris = _project.PortalSettings.RedirectUri.Split(" ")
                         };
                         break;
                     case "Desktop":
                         application.PublicClient = new Microsoft.Graph.PublicClientApplication
-                        {                            
+                        {
                             RedirectUris = _project.PortalSettings.RedirectUri.Split(" ")
-                            
+
                         };
                         break;
                     default:
@@ -171,32 +218,25 @@ namespace IdAceCodeEditor
                     .Request()
                     .AddAsync(application);
 
-                if(!string.IsNullOrEmpty(_project.PortalSettings.BrokeredUri))
+                if (!string.IsNullOrEmpty(_project.PortalSettings.BrokeredUri))
                 {
-                    _project.PortalSettings.BrokeredUri = String.Format(_project.PortalSettings.BrokeredUri, content.AppId);
-                    content.PublicClient.RedirectUris = content.PublicClient.RedirectUris.Concat(_project.PortalSettings.BrokeredUri.Split(" "));
-                   
+                    IEnumerable<string> brokerUriList = _project.PortalSettings.BrokeredUri.Split(" ");
+                    List<string> brokerUriList2 = new List<string>();
+                    foreach (string brokerUri in brokerUriList)
+                    {
+                        brokerUriList2.Add(String.Format(brokerUri, content.AppId));
+                    }
+                   // _project.PortalSettings.BrokeredUri = String.Format(_project.PortalSettings.BrokeredUri, content.AppId);
+                    content.PublicClient.RedirectUris = content.PublicClient.RedirectUris.Concat(brokerUriList2);
+
                     await graphClient.Applications[content.Id]
                             .Request()
                             .UpdateAsync(content);
                 }
                 string key = string.Format("persistdata:Projects[{0}]", _project.Order);
-                _persistData.Add(key + ".App.AppId", content.AppId);
+                _persistData.Add(key + ".App.AppId", content.AppId);                
+                _persistData.Add(key + ".App.Id", content.Id);
 
-                if (!string.IsNullOrEmpty(_project.PortalSettings.SecretName))
-                {
-                    var passwordCredential = new PasswordCredential
-                    {
-                        DisplayName = _project.PortalSettings.SecretName
-                    };
-
-                    var secretresponse = await graphClient.Applications[content.Id]
-                        .AddPassword(passwordCredential)
-                        .Request()
-                        .PostAsync();
-
-                    _persistData.Add(key + ".SecretText", secretresponse.SecretText);                    
-                }
                 if (_project.PortalSettings.AppType.Equals("Api"))
                 {
                     var listofPermission = new List<Microsoft.Graph.PermissionScope>();
@@ -235,12 +275,56 @@ namespace IdAceCodeEditor
 
                     await graphClient.
                         ServicePrincipals.
-                        Request().AddAsync(servicePrincipal);                        
+                        Request().AddAsync(servicePrincipal);
+                }
+                if (!string.IsNullOrEmpty(_project.PortalSettings.SecretName))
+                {
+                    var passwordCredential = new PasswordCredential
+                    {
+                        DisplayName = _project.PortalSettings.SecretName
+                    };
+
+                    var secretresponse = await graphClient.Applications[content.Id]
+                        .AddPassword(passwordCredential)
+                        .Request()
+                        .PostAsync();
+
+                    _persistData.Add(key + ".SecretText", secretresponse.SecretText);
+                }
+                if (_project.PortalSettings.Certificate!=null)
+                {
+                    
+                    _project.PortalSettings.Certificate.WorkingFolder = _project.AbsoluteProjectPath;
+                    CertificateWindow certificateWindow = new CertificateWindow(_project.PortalSettings.Certificate);
+                    if (certificateWindow.ShowDialog() == true)
+                    {
+                        var keyCredential = new KeyCredential
+                        {
+                            //DisplayName = _project.PortalSettings.Certificate.CertName,
+                            Usage = "Verify",
+                            Type = "AsymmetricX509Cert",
+                            KeyId = Guid.NewGuid(),
+                            Key= _project.PortalSettings.Certificate.Key,
+                            EndDateTime= _project.PortalSettings.Certificate.EndDateTime,
+                            StartDateTime= _project.PortalSettings.Certificate.StartDateTime                            
+                        };
+
+                        content.KeyCredentials = new List<KeyCredential>() { keyCredential };
+                        var app = await graphClient.Applications[content.Id]
+                            .Request()
+                           .UpdateAsync(content);
+
+                        _persistData.Add(key + ".Certificate.ThumbPrint",Encoding.Default.GetString(_project.PortalSettings.Certificate.ThumbPrint));
+                        _persistData.Add(key + ".Certificate.DistinguishedName", string.Format("CN={0}",_project.PortalSettings.Certificate.Subject));
+                        _persistData.Add(key + ".Certificate.PemFile", _project.PortalSettings.Certificate.PemName);
+                        _persistData.Add(key + ".Certificate.PfxFile", _project.PortalSettings.Certificate.PfxName);
+                    }
                 }
                 return content;
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 return null;
             }
         }

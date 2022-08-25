@@ -14,7 +14,7 @@ namespace IdAceCodeEditor
         public string IsHybridFlow { get; set; }
         public string IsDeviceCodeFlow { get; set; }
         public string SecretName{ get; set; }
-        public string Certificate { get; set; }
+        public Certificate Certificate { get; set; }
         public List<PermissionScope> PermissionScopes { get; set; }
         public List<RequiredResourceAccess> RequiredResourceAccesss { get; set; }
 

@@ -12,7 +12,7 @@ namespace IdAceCodeEditor
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }
-        public string? Type { get; set; }
+        public string Type { get; set; }
 
         public string WorkingFolder { get; set; }
         public GitHubRepo GitHubRepoSettings{ get; set; }
@@ -54,7 +54,7 @@ namespace IdAceCodeEditor
                 objCloneService.CloneRepo(this.GitHubRepoSettings);
 
             bool isCorrect = true;
-            //show automatic window window
+            //show automatic window
             Dictionary<string, string> persistData = new Dictionary<string, string>();
 
             foreach (var item in Projects)
@@ -64,8 +64,7 @@ namespace IdAceCodeEditor
                 {
                     isCorrect = false;
                 }
-            }
-
+            }           
             // List prerequitess 
             if (isCorrect)
             {
@@ -75,6 +74,10 @@ namespace IdAceCodeEditor
                                                                   System.IO.Path.Combine(clonnedPath,WorkingFolder),
                                                                   Prerequisites);
                 obWindow.ShowDialog();
+            }
+            foreach (var item in Projects)
+            {
+                ClearMapping(item.ReplacementFields);
             }
 
             // Save command execution logic
@@ -133,6 +136,18 @@ namespace IdAceCodeEditor
                                                           Prerequisites);
                 obWindow.ShowDialog();
             }
-        }  
-    }
+            foreach (var item in Projects)
+            {
+                ClearMapping(item.ReplacementFields);
+            }
+
+        }
+        private void ClearMapping(List<ReplacementField> replacementFields)
+        {
+            foreach (var item in replacementFields)
+            {
+                item.Value = String.Empty;
+            }
+        }
+            }
 }

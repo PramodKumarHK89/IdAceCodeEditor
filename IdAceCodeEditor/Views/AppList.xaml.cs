@@ -1,7 +1,9 @@
 ﻿using Microsoft.Graph;
 using Microsoft.Identity.Client;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -32,6 +34,8 @@ namespace IdAceCodeEditor
         public Application app;
         public Project _project;
         Dictionary<string, string> _persistData;
+        ConfigureAzureAdApp objConfigureApp;
+        AppListViewModel objViewModel;
         public AppList()
         {
             InitializeComponent();
@@ -40,18 +44,21 @@ namespace IdAceCodeEditor
         {
             _persistData = persistData;
             _project = project;
-            _project.ProjectPath = System.IO.Path.Combine(clonnedPath, project.ProjectPath);
+            _project.AbsoluteProjectPath = System.IO.Path.Combine(clonnedPath, project.ProjectPath);
             InitializeComponent();
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            ConfigureAzureAdApp objConfigureApp = new ConfigureAzureAdApp(_persistData, _project);
+            objConfigureApp = new ConfigureAzureAdApp(_persistData, _project);
             authResult = await objConfigureApp.AuthenticateWithAzureAd(LISTCOPES, this);
 
-            AppListViewModel objViewModel = new AppListViewModel(_project, objConfigureApp, _persistData);
-            objViewModel.Applications = await objConfigureApp.ListAppRegistrations(authResult.AccessToken);
+            objViewModel = new AppListViewModel(_project, objConfigureApp, _persistData);
+            var listApps = await objConfigureApp.ListAppRegistrations(authResult.AccessToken);
+            
+            ObservableCollection<Application> myCollection = new ObservableCollection<Application>(listApps);
+            objViewModel.Applications = myCollection;
             this.DataContext = objViewModel;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lvUsers.ItemsSource);
@@ -105,6 +112,15 @@ namespace IdAceCodeEditor
             SortDescription sd = new SortDescription(sortBy, direction);
             dataView.SortDescriptions.Add(sd);
             dataView.Refresh();
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var listApps = await objConfigureApp.ListAppRegistrations(authResult.AccessToken);
+
+            ObservableCollection<Application> myCollection = new ObservableCollection<Application>(listApps);
+            objViewModel.Applications = myCollection;
+         
         }
     }
 }

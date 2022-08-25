@@ -13,12 +13,15 @@ namespace IdAceCodeEditor
     {
         public string Name { get; set; }        
         public string ProjectPath { get; set; }
-
+        
+        public string AbsoluteProjectPath { get; set; }
         public int Order { get; set; }
 
         public PortalSetting PortalSettings { get; set; }
 
-        public List<ReplacementField> ReplacementFields { get; set; }       
+        public List<ReplacementField> ReplacementFields { get; set; }
+
+        public List<PostRegUpdate> PostRegUpdates { get; set; }       
 
         private ICommand _replaceSettingsCommand;
 
@@ -46,7 +49,7 @@ namespace IdAceCodeEditor
         private void ReplaceSettings(object o)
         {            
             ReplaceService objService = new ReplaceService();
-            objService.ReplaceManualSettings(ProjectPath, this.ReplacementFields.ToList());
+            objService.ReplaceManualSettings(AbsoluteProjectPath, this.ReplacementFields.ToList());
 
             var window = (Window)o;
             window.DialogResult = true;

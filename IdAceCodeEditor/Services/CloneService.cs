@@ -12,10 +12,10 @@ namespace IdAceCodeEditor.Services
         public string CloneRepo(GitHubRepo repo)
         {
             string localPath =
-                            System.IO.Path.Combine(System.IO.Path.GetDirectoryName(
+                              System.IO.Path.Combine(System.IO.Path.GetDirectoryName(
                             System.Reflection.Assembly.GetEntryAssembly().Location),
                             LOCALREPO, repo.LocalPath, DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss"));
-
+                           // @"c:\l";
             Repository.Clone(repo.ClonePath, localPath);
 
             return localPath;

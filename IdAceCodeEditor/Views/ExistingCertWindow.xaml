@@ -1,0 +1,75 @@
+﻿<Window x:Class="IdAceCodeEditor.Views.ExistingCertWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IdAceCodeEditor.Views"
+        mc:Ignorable="d"
+        Title="ExistingCertWindow" Height="450" Width="800">
+    <Window.Resources>
+        <DataTemplate x:Key="sampleContent">
+            <Grid Margin="100 0 150 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"></ColumnDefinition>
+                    <ColumnDefinition Width="75"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Name}" Grid.Column="0" />
+                <TextBox Text="{Binding Value}" Grid.Column="1"/>
+                <Button Grid.Column="2" >Browse ..</Button>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="75"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBlock Margin="20" Grid.Row="0" Text="Please provide the path for the existing certificates"></TextBlock>
+
+
+        <!--<ItemsControl Grid.Row="1" ItemsSource="{Binding ReplacementFields}" 
+                      ItemTemplate="{StaticResource sampleContent}">
+        </ItemsControl>-->
+        
+        <Grid  Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="110"></ColumnDefinition>
+                <ColumnDefinition Width="210"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="crtLabel" Text="CRT file path" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBox Name="txtCrt"  Text="{Binding CertFileName}" Grid.Column="1" Width="200" Height="30"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Button x:Name="crtButton" Grid.Column="2" Height="20" Width="60" Click="CRT_Click" HorizontalAlignment="Left">Browse ..</Button>
+
+            <TextBlock  x:Name="pemLabel" Text="PEM file path"  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"  />
+            <TextBox Name="txtPem" Text="{Binding PemFileName}" Grid.Row="1" Grid.Column="1"  Width="200" Height="30"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Button  x:Name="pemButton" Grid.Column="2"  Grid.Row="1"   Height="20" Width="60" Click="Pem_Click" HorizontalAlignment="Left">Browse ..</Button>
+
+            <TextBlock  x:Name="pfxLabel" Text="Pfx file path" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
+            <TextBox Name="txtPfx" Text="{Binding PfxFileName}" Grid.Row="2"  Grid.Column="1" Width="200" Height="30"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Button   x:Name="pfxButton" Grid.Row="2"  Grid.Column="2" Height="20" Width="60" Click="Pfx_Click" HorizontalAlignment="Left">Browse ..</Button>
+
+        </Grid>
+        <Grid Grid.Row="2" Margin="0 0 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="110"></ColumnDefinition>
+                <ColumnDefinition Width="210"></ColumnDefinition>
+                <ColumnDefinition Width="120"></ColumnDefinition>
+                <ColumnDefinition Width="120"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="passLabel"  Text="PFX password" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" />
+            <PasswordBox Grid.Column="1" Name="txtpassword" Width="200"  Height="30"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Button Grid.Column="2" Height="35" Margin="10" Click="Update_Click">Update</Button>
+            <Button Grid.Column="3" Height="35" Margin="10" Click="Cancel_Click">Cancel</Button>
+        </Grid>
+    </Grid>
+</Window>

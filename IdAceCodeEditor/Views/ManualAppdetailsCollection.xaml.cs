@@ -24,7 +24,7 @@ namespace IdAceCodeEditor
         public ManualAppdetailsCollection(string clonnedPath, Project project)
         {
             InitializeComponent();
-            project.ProjectPath = System.IO.Path.Combine(clonnedPath,project.ProjectPath);
+            project.AbsoluteProjectPath = System.IO.Path.Combine(clonnedPath, project.ProjectPath);
             this.DataContext = project;
         }
 

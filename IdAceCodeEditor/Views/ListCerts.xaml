@@ -1,0 +1,44 @@
+﻿<Window x:Class="IdAceCodeEditor.Views.ListCerts"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IdAceCodeEditor.Views"
+        xmlns:local2="clr-namespace:IdAceCodeEditor"
+        mc:Ignorable="d"
+        Title="ListCerts" Height="450" Width="800">
+    <Window.Resources>
+        <local2:Base64CustomConvertor x:Key="valueconverter"></local2:Base64CustomConvertor>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="75"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBlock Margin="20" Grid.Row="0" Text="List of Certificates"></TextBlock>
+
+        <ListView Margin="10" Name="lvUsers" ItemsSource="{Binding KeyCredentials}" Grid.Row="1" 
+                  SelectedItem="{Binding SelectedKeyCredential, Mode=TwoWay}"  >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="DisplayName" Width="200" DisplayMemberBinding="{Binding DisplayName}" />
+                    <GridViewColumn Header="ThumbPrint" Width="200" DisplayMemberBinding="{Binding CustomKeyIdentifier,Converter={StaticResource valueconverter}}" />
+                    <GridViewColumn Header="Usage" Width="auto" DisplayMemberBinding="{Binding Usage}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="180"></ColumnDefinition>
+                <ColumnDefinition Width="180"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Content="Configure" Height="30" Width="170" Grid.Column="1" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                    AncestorType={x:Type Window}}}" Command="{Binding Path=UpdateKeyCredentialCommand}"/>
+            <Button Content="Cancel" Height="30" Width="170" Grid.Column="2" Command="{Binding Path=CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                    AncestorType={x:Type Window}}}" />
+        </Grid>
+    </Grid>
+</Window>

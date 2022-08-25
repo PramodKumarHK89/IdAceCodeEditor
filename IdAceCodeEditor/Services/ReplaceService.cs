@@ -11,7 +11,7 @@ namespace IdAceCodeEditor
 {
     public class ReplaceService
     {      
-        public bool ReplaceManualSettings(string clonedPath, List<ReplacementField> replacementFields)
+        public bool ReplaceManualSettings(string projectPath, List<ReplacementField> replacementFields)
         {
             foreach (var item in replacementFields)
             {
@@ -19,14 +19,14 @@ namespace IdAceCodeEditor
                 if (item.ReplacementType.Equals("JSON", StringComparison.InvariantCultureIgnoreCase))
                 {
 
-                    var obj = UpdateJsonwithvalues(Path.Combine(clonedPath, item.FileName),
+                    var obj = UpdateJsonwithvalues(Path.Combine(projectPath, item.FileName),
                                                 item.Section,                           
                                                 item.Destination,
                                                 item.Value);
                 }
                 else if (item.ReplacementType.Equals("TXT", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    FindAndReplace(Path.Combine(clonedPath, item.FileName),
+                    FindAndReplace(Path.Combine(projectPath, item.FileName),
                                                    item.Destination,
                                                    item.Value);
                 }
@@ -51,12 +51,31 @@ namespace IdAceCodeEditor
 
             JObject? jObject = JsonConvert.DeserializeObject<JObject>(jsonString);
 
+
             if (jObject?[section] is JObject p)
             {
-                p[dest] = value;
+                if (dest.Contains(":"))
+                {
+                    var destpieces = dest.Split(":");
+                    p[destpieces[0]][Convert.ToInt32(destpieces[1])][destpieces[2]] = value;
+                }
+                else
+                {
+                    p[dest] = value;
+                }
             }
             else
-                jObject[dest] = value;
+            {
+                if (dest.Contains(":"))
+                {
+                    var destpieces = dest.Split(":");
+                    jObject[destpieces[0]][Convert.ToInt32(destpieces[1])][destpieces[2]] = value;
+                }
+                else
+                {
+                    jObject[dest] = value;
+                }
+            }
 
             string newJson = JsonConvert.SerializeObject(jObject);
 
