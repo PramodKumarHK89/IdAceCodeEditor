@@ -5,51 +5,56 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IdAceCodeEditor"
         mc:Ignorable="d"
-        Title="AppList" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="Configure Azure App regsitration" WindowStartupLocation="CenterOwner" Height="650" Width="800" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="75"></RowDefinition>
+            <RowDefinition Height="90"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="75"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="6*"></ColumnDefinition>
-                <ColumnDefinition Width="25*"/>
-                <ColumnDefinition Width="180"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <TextBlock Margin="20,20,20,20" Grid.Column="0" Text="{Binding Name}" Grid.ColumnSpan="2">
-
-            </TextBlock>
-            <Button Content="Create" Height="30" Width="170" Grid.Column="2" 
-                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
-                    AncestorType={x:Type Window}}}" Command="{Binding Path=CreateAppCommand}" Margin="5,22,5,23" />
-        </Grid>
-        <StackPanel Grid.Row="1" >
-            <Button Content="Refresh"  Grid.Column="1" HorizontalAlignment="Stretch" Click="Button_Click"/>
+        <GroupBox Header="Azure Tenant details" Margin="10" Padding="10">
+            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" >
+                <Button Content="Refresh"  Height="25" Width="100" 
+                            Click="Button_Click" Margin="0 0 10 0"/>
+                <TextBlock x:Name="txtTenant" VerticalAlignment="Center"  FontWeight="Bold">
+                </TextBlock>
+                <TextBlock Text=" to the tenant " VerticalAlignment="Center">
+                </TextBlock>
+                <TextBlock x:Name="txtUserName" VerticalAlignment="Center"  FontWeight="Bold">
+                </TextBlock>
+                <TextBlock VerticalAlignment="Center" Text=" You are signed in as">
+                </TextBlock>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Existing app registrations in the tenant" Margin="10" >
             <ListView Margin="10" Name="lvUsers" ItemsSource="{Binding Applications,Mode=TwoWay}" 
                   SelectedItem="{Binding SelectedApp, Mode=TwoWay}"  GridViewColumnHeader.Click="lvUsers_Click">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="DisplayName" Width="200" DisplayMemberBinding="{Binding DisplayName}" />
                         <GridViewColumn Header="CreatedDateTime" Width="200" DisplayMemberBinding="{Binding CreatedDateTime}" />
-                        <GridViewColumn Header="Id" Width="auto" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="Application Id" Width="auto" DisplayMemberBinding="{Binding Id}" />
                     </GridView>
                 </ListView.View>
             </ListView>
-        </StackPanel>
-       
-       
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="180"></ColumnDefinition>
-                <ColumnDefinition Width="180"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Button Content="Configure" Height="30" Width="170" Grid.Column="1" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
-                    AncestorType={x:Type Window}}}" Command="{Binding Path=ConfigureCommand}"/>
-            <Button Content="Cancel" Height="30" Width="170" Grid.Column="2" Command="{Binding Path=CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+        </GroupBox>
+        <GroupBox Grid.Row="2" Header="Configure the application" Margin="10" Padding="10">
+            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" >
+                <Button Content="Cancel" Height="30" Width="170" Margin="0 0 10 0" 
+                    Command="{Binding Path=CancelCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
                     AncestorType={x:Type Window}}}" />
-        </Grid>
+                <Button Content="Create new app" Height="30" Width="170"  Margin="0 0 10 0" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                    AncestorType={x:Type Window}}}" Command="{Binding Path=CreateAppCommand}" />
+                <Button Content="Use existing app" Height="30" Width="170" Margin="0 0 10 0" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                    AncestorType={x:Type Window}}}" Command="{Binding Path=ConfigureCommand}"/>
+                <TextBlock VerticalAlignment="Center" Text="{Binding Path=Name}" FontWeight="Bold">
+                </TextBlock>
+                <TextBlock VerticalAlignment="Center" Text=" You are configuring the project">
+                </TextBlock>
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </Window>

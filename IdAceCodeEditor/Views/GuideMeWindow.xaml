@@ -1,0 +1,50 @@
+﻿<Window x:Class="IdAceCodeEditor.Views.GuideMeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IdAceCodeEditor.Views"
+        mc:Ignorable="d"
+        Title="GuideMeWindow" Height="650" Width="420" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition  Height="110" ></RowDefinition>
+            <RowDefinition  Height="150" ></RowDefinition>
+            <RowDefinition  Height="130" ></RowDefinition>
+            <RowDefinition  Height="130" ></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Header="Platform" Margin="10" Padding="10">
+        <StackPanel>
+            <TextBlock>Select the aplication platform</TextBlock>
+                <ComboBox ></ComboBox>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Application Type" Margin="10" Padding="10">
+            <StackPanel>
+                <RadioButton Margin="0 0 0 10">If the application interactive and user is involved, then please select this option </RadioButton>
+                <RadioButton>If the application daemon and operates without UI, then please select this option</RadioButton>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="2" Header="Scenario" Margin="10" Padding="10">
+            <StackPanel>
+                <RadioButton Margin="0 0 0 10">Application implements sign-in feature to the users</RadioButton>
+                <RadioButton Margin="0 0 0 10">Application implements sign-in feature to the users and then calls graph resources</RadioButton>
+                <RadioButton>Application implements sign-in feature to the users and then calls custom API</RadioButton>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="3" Header="Add in features" Margin="10" Padding="10">
+            <StackPanel>
+                <CheckBox Margin="0 0 0 10">Usage of certificate</CheckBox>
+                <CheckBox Margin="0 0 0 10">Store Certificate in Azure KeyVault</CheckBox>
+                <CheckBox Margin="0 0 0 10">CAE</CheckBox>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="4" Header="Search" Margin="10" Padding="10">
+            <StackPanel>
+                <Button Margin="0 0 0 10">Submit</Button>
+                <Button Margin="0 0 0 10">Cancel</Button>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</Window>

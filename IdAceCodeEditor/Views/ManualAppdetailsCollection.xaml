@@ -5,17 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IdAceCodeEditor"
         mc:Ignorable="d"
-        Title="ManualAppdetailsCollection" Height="350" Width="600">
+        Title="ManualAppdetailsCollection" Height="550" Width="400" WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <DataTemplate x:Key="sampleContent">
-            <Grid Margin="100 0 150 10">   
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="75"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Name}" Grid.Column="0" />
-                <TextBox Text="{Binding Value}" Grid.Column="1"/>
-            </Grid>
+            <StackPanel>                   
+                <TextBlock Text="{Binding Name}"  />
+                <TextBox Text="{Binding Value}" Margin="0 0 0 10"/>
+            </StackPanel>
         </DataTemplate>
     </Window.Resources>
     <Grid>
@@ -24,13 +20,13 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="75"></RowDefinition>
         </Grid.RowDefinitions>
-
         <TextBlock Margin="20" Grid.Row="0" Text="{Binding Name}"></TextBlock>
-
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding ReplacementFields}" 
+        <GroupBox Grid.Row="1" Header="Configuration fields" Margin="10" Padding="10">
+            <ItemsControl ItemsSource="{Binding ReplacementFields}" 
                       ItemTemplate="{StaticResource sampleContent}">
-        </ItemsControl>
-        <Grid Grid.Row="2" Margin="0 0 75 0">
+            </ItemsControl>
+        </GroupBox>
+        <Grid Grid.Row="2" Margin="0 0 10 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="100"></ColumnDefinition>

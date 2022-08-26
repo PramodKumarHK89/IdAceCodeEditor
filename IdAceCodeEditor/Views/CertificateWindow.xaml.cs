@@ -39,6 +39,7 @@ namespace IdAceCodeEditor.Views
             ExistingCertWindow obExsiting = new ExistingCertWindow(false,
                 !cert.Type.Equals("PemFile"),
                 !cert.Type.Equals("PfxFile"));
+            obExsiting.Owner = this;
             if (obExsiting.ShowDialog() == true)
             {
                 cert.CertName = obExsiting.CertFileName;

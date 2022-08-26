@@ -60,6 +60,7 @@ namespace IdAceCodeEditor
             foreach (var item in Projects)
             {
                 AppList objWindow = new AppList(persistData, clonnedPath, item);
+                objWindow.Owner = (Window)o;
                 if (objWindow.ShowDialog() == false)
                 {
                     isCorrect = false;
@@ -119,6 +120,7 @@ namespace IdAceCodeEditor
             foreach (var item in Projects)
             {
                 ManualAppdetailsCollection objWindow = new ManualAppdetailsCollection(clonnedPath, item);
+                objWindow.Owner = (Window)o;
                 if (objWindow.ShowDialog() == false)
                 {
                     isCorrect = false;

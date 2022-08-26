@@ -1,7 +1,9 @@
-﻿using System;
+﻿using IdAceCodeEditor.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows.Input;
 
 namespace IdAceCodeEditor
 {
@@ -9,6 +11,7 @@ namespace IdAceCodeEditor
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }
-        public ObservableCollection<Sample> Samples{ get; set; }
+        public ObservableCollection<Sample> Samples { get; set; }
+       
     }
 }

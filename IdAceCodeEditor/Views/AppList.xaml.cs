@@ -54,6 +54,9 @@ namespace IdAceCodeEditor
             objConfigureApp = new ConfigureAzureAdApp(_persistData, _project);
             authResult = await objConfigureApp.AuthenticateWithAzureAd(LISTCOPES, this);
 
+            txtUserName.Text = new System.Net.Mail.MailAddress(authResult.Account.Username).User;
+            txtTenant.Text = new System.Net.Mail.MailAddress(authResult.Account.Username).Host;
+
             objViewModel = new AppListViewModel(_project, objConfigureApp, _persistData);
             var listApps = await objConfigureApp.ListAppRegistrations(authResult.AccessToken);
             

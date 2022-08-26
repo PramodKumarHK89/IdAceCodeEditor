@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:IdAceCodeEditor"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="IdAceCodeEditor" Height="450" Width="800">
+        Title="IdAceCodeEditor" Height="500" Width="800">
         <Window.Resources>
         <Style TargetType="TabItem">
             <Setter Property="Template">
@@ -73,7 +73,7 @@
             <Expander HorizontalAlignment="Left" Header="{Binding Name}" Background="AliceBlue" 
                                   ExpandDirection="Down" IsExpanded="False" 
                                   Width="{Binding ActualWidth, ElementName=gridName}"
-                  FontSize="20" FontWeight="Bold" >
+                  FontSize="20"  >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -86,11 +86,12 @@
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <TextBlock TextWrapping="Wrap" Text="{Binding DisplayName}" 
-                                       HorizontalAlignment="Center"
+                                       HorizontalAlignment="Center" FontSize="15"
                                    VerticalAlignment="Center">
                             </TextBlock>
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                                <ItemsControl ItemsSource="{Binding Tags}" ItemTemplate="{StaticResource tagContent}">
+                                <ItemsControl ItemsSource="{Binding Tags}" 
+                                              ItemTemplate="{StaticResource tagContent}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <WrapPanel Orientation="Horizontal" IsItemsHost="True"/>
@@ -98,32 +99,33 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                             </StackPanel>
-                    </Grid>
+                        </Grid>
                     </Border>
                     <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1">
                         <StackPanel>
-                            <Button Width="200" Height="50"  
+                            <Button Width="220" Height="50"  
                             Command="{Binding Path=ConfigureWithAzureAdCommand}" 
                             CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
                            AncestorType={x:Type Window}}}"
-                             Margin="10" >
+                             Margin="0 10 0 10" >
                                 <Button.Content>
                                     <StackPanel>
-                                        <TextBlock Text="Configure" FontSize="20" />
-                                        <TextBlock Text="Connect With Azure AD" FontSize="12" 
+                                        <TextBlock Text="Configure with Azure Ad" FontSize="18" />
+                                        <TextBlock Text="Requires you to sign-in to Azure Ad" 
+                                                   FontSize="12" 
                                         />
                                     </StackPanel>
                                 </Button.Content>
                             </Button>
-                            <Button Width="200" Height="50"  
+                            <Button Width="220" Height="50"  
                                     Command="{Binding Path=ConfigureManuallyCommand}"
                                     CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
                                     AncestorType={x:Type Window}}}"
-                            Margin="10" >
+                            Margin="0 0 0 10">
                                 <Button.Content>
                                     <StackPanel>
-                                        <TextBlock Text="Configure" FontSize="20" />
-                                        <TextBlock Text="Manually update app reg Info" FontSize="12" />
+                                        <TextBlock Text="Configure manually" FontSize="18" />
+                                        <TextBlock Text="Update app reg info to sample config" FontSize="12" />
                                     </StackPanel>
                                 </Button.Content>
                             </Button>
@@ -134,7 +136,6 @@
                 </Grid>
             </Expander>
         </DataTemplate>
-       
         <DataTemplate x:Key="tabItemTemplate">
             <TextBlock Text="{Binding Path=DisplayName}" Margin="0"/>
             </DataTemplate>
@@ -149,9 +150,23 @@
         </DataTemplate>
     </Window.Resources>
     <Grid x:Name="gridName">
-        <TabControl Name="tab" ItemTemplate="{StaticResource tabItemTemplate}"
+        <Grid.RowDefinitions>
+                <RowDefinition Height="100"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Header="Welcome to IdAceCodeEditor tool - One stop solution to find the samples involving Azure Ad authentication and authorization" Margin="10" Padding="10">
+                <Button Command="{Binding Path=GuideMeCommand}" Height="25" 
+                        CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                    AncestorType={x:Type Window}}}">Click here to help you to choose the right sample
+                    </Button>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="List of samples available across multiple platforms" 
+                  Margin="10" Padding="10">
+
+            <TabControl Name="tab" ItemTemplate="{StaticResource tabItemTemplate}"
          ContentTemplate="{StaticResource contentTemplate}"
           ItemsSource="{Binding Frameworks}" >
-        </TabControl>
+            </TabControl>
+        </GroupBox>
     </Grid>
 </Window>

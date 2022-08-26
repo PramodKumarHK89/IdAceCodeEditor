@@ -6,39 +6,42 @@
         xmlns:local="clr-namespace:IdAceCodeEditor.Views"
         xmlns:local2="clr-namespace:IdAceCodeEditor"
         mc:Ignorable="d"
-        Title="ListCerts" Height="450" Width="800">
+        Title="Existing certificates" Height="350" Width="550" WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <local2:Base64CustomConvertor x:Key="valueconverter"></local2:Base64CustomConvertor>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="75"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="75"></RowDefinition>
+            <RowDefinition Height="90"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBlock Margin="20" Grid.Row="0" Text="List of Certificates"></TextBlock>
-
-        <ListView Margin="10" Name="lvUsers" ItemsSource="{Binding KeyCredentials}" Grid.Row="1" 
+        <GroupBox Grid.Row="0" Header="List of Certificates in the app registration" Margin="10" 
+                      Padding="10">
+            <ListView Name="lvUsers" ItemsSource="{Binding KeyCredentials}" Grid.Row="1" 
                   SelectedItem="{Binding SelectedKeyCredential, Mode=TwoWay}"  >
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="DisplayName" Width="200" DisplayMemberBinding="{Binding DisplayName}" />
-                    <GridViewColumn Header="ThumbPrint" Width="200" DisplayMemberBinding="{Binding CustomKeyIdentifier,Converter={StaticResource valueconverter}}" />
-                    <GridViewColumn Header="Usage" Width="auto" DisplayMemberBinding="{Binding Usage}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="180"></ColumnDefinition>
-                <ColumnDefinition Width="180"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Button Content="Configure" Height="30" Width="170" Grid.Column="1" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
-                    AncestorType={x:Type Window}}}" Command="{Binding Path=UpdateKeyCredentialCommand}"/>
-            <Button Content="Cancel" Height="30" Width="170" Grid.Column="2" Command="{Binding Path=CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="DisplayName" Width="150" DisplayMemberBinding="{Binding DisplayName}" />
+                        <GridViewColumn Header="ThumbPrint" Width="150" DisplayMemberBinding="{Binding CustomKeyIdentifier,Converter={StaticResource valueconverter}}" />
+                        <GridViewColumn Header="Usage" Width="auto" DisplayMemberBinding="{Binding Usage}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Configure certificate" Margin="10" 
+                      Padding="10">
+            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                <Button Content="Cancel" Width="150" Command="{Binding Path=CancelCommand}" 
+                         Margin="0 0 10 0"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
                     AncestorType={x:Type Window}}}" />
-        </Grid>
+                
+                <Button Content="Configure" Width="150"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                    AncestorType={x:Type Window}}}" Command="{Binding Path=UpdateKeyCredentialCommand}"/>
+         
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </Window>

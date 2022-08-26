@@ -295,7 +295,7 @@ namespace IdAceCodeEditor
                 {
                     
                     _project.PortalSettings.Certificate.WorkingFolder = _project.AbsoluteProjectPath;
-                    CertificateWindow certificateWindow = new CertificateWindow(_project.PortalSettings.Certificate);
+                    CertificateWindow certificateWindow = new CertificateWindow(_project.PortalSettings.Certificate);                    
                     if (certificateWindow.ShowDialog() == true)
                     {
                         var keyCredential = new KeyCredential

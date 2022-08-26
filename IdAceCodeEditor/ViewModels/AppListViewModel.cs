@@ -68,6 +68,7 @@ namespace IdAceCodeEditor
         {
             var window = (AppList)o;
             AutomaticAppCreationWindow objWindow = new AutomaticAppCreationWindow(_project);
+            objWindow.Owner = window;
             if (objWindow.ShowDialog() == true)
             {
                 var authResult = await _ConfigureAzureAdApp.AuthenticateWithAzureAd(CREATESCOPES, window);
