@@ -5,45 +5,71 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IdAceCodeEditor.Views"
         mc:Ignorable="d"
-        Title="GuideMeWindow" Height="650" Width="420" WindowStartupLocation="CenterOwner">
+        Title="GuideMeWindow" Height="655" Width="700" Closing="Window_Closing" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"></RowDefinition>
-            <RowDefinition  Height="110" ></RowDefinition>
-            <RowDefinition  Height="150" ></RowDefinition>
+            <RowDefinition Height="105"></RowDefinition>
+            <RowDefinition  Height="105" ></RowDefinition>
             <RowDefinition  Height="130" ></RowDefinition>
-            <RowDefinition  Height="130" ></RowDefinition>
+            <RowDefinition  Height="185" ></RowDefinition>
+            <RowDefinition  Height="95" ></RowDefinition>
         </Grid.RowDefinitions>
-        <GroupBox Grid.Row="0" Header="Platform" Margin="10" Padding="10">
-        <StackPanel>
-            <TextBlock>Select the aplication platform</TextBlock>
-                <ComboBox ></ComboBox>
+        <GroupBox Name="Type" Grid.Row="0" Header="Step 1 - Choose your application type" Margin="5"
+                  Padding="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition  Width="*" ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <RadioButton Tag="Web" GroupName="Type" Checked="RadioButton_Checked" Margin="0 0 0 10">Web Application</RadioButton>
+                    <RadioButton Tag="Spa" GroupName="Type" Checked="RadioButton_Checked" >SPA - Single page application</RadioButton>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <RadioButton Tag="PublicClient" Checked="RadioButton_Checked" GroupName="Type" Margin="0 0 0 10">Public Client - Mobile/Desktop</RadioButton>
+                    <RadioButton Tag="Daemon" Checked="RadioButton_Checked" GroupName="Type">Daemon - No user involved</RadioButton>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Step 2 - Choose your framework" Margin="5" Padding="5">
+            <StackPanel>
+                <TextBlock>Select your aplication framework</TextBlock>
+                <ComboBox Name="cmbFramework" ItemsSource="{Binding Frameworks}" DisplayMemberPath="Name" 
+                          SelectionChanged="cmbFramework_SelectionChanged" SelectedItem="{Binding Path=SelectedFramework}" ></ComboBox>
             </StackPanel>
         </GroupBox>
-        <GroupBox Grid.Row="1" Header="Application Type" Margin="10" Padding="10">
+        <GroupBox Grid.Row="2" Header="Step 3 - Choose your scenario" Margin="5" Padding="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition  Width="*" ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <CheckBox Margin="0 0 0 10">User should Sign In to app</CheckBox>
+                    <CheckBox Margin="0 0 0 10">App Calls Graph Api</CheckBox>
+                    <CheckBox Margin="0 0 0 10">App calls custom Api</CheckBox>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <CheckBox Margin="0 0 0 10" Checked="CheckBox_Checked" >Usage of certificate over secret</CheckBox>
+                    <CheckBox Margin="0 0 0 10">Integration with Azure KeyVault</CheckBox>
+                    <CheckBox Margin="0 0 0 10">CAE enabled client</CheckBox>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="3" Header="Step 4 - Choose your sample" Margin="5" Padding="5">
             <StackPanel>
-                <RadioButton Margin="0 0 0 10">If the application interactive and user is involved, then please select this option </RadioButton>
-                <RadioButton>If the application daemon and operates without UI, then please select this option</RadioButton>
+                <StackPanel>
+                    <TextBlock TextWrapping="Wrap">Based on your creteria, below samples are most relavent in the order of sequence. Select one and click submit button</TextBlock>
+                    <ListBox Height="120" Name="lstScenario" 
+                             ItemsSource="{Binding Samples}" DisplayMemberPath="Name"
+                             SelectedItem="{Binding IsSelected, Mode=TwoWay}"></ListBox>
+                </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Grid.Row="2" Header="Scenario" Margin="10" Padding="10">
+        <GroupBox Grid.Row="4" Header="Search" Margin="5" Padding="5">
             <StackPanel>
-                <RadioButton Margin="0 0 0 10">Application implements sign-in feature to the users</RadioButton>
-                <RadioButton Margin="0 0 0 10">Application implements sign-in feature to the users and then calls graph resources</RadioButton>
-                <RadioButton>Application implements sign-in feature to the users and then calls custom API</RadioButton>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox Grid.Row="3" Header="Add in features" Margin="10" Padding="10">
-            <StackPanel>
-                <CheckBox Margin="0 0 0 10">Usage of certificate</CheckBox>
-                <CheckBox Margin="0 0 0 10">Store Certificate in Azure KeyVault</CheckBox>
-                <CheckBox Margin="0 0 0 10">CAE</CheckBox>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox Grid.Row="4" Header="Search" Margin="10" Padding="10">
-            <StackPanel>
-                <Button Margin="0 0 0 10">Submit</Button>
-                <Button Margin="0 0 0 10">Cancel</Button>
+                <Button Margin="0 0 0 10" Click="Submit_Click">Submit</Button>
+                <Button Margin="0 0 0 10" Click="Cancel_Click">Cancel</Button>
             </StackPanel>
         </GroupBox>
     </Grid>

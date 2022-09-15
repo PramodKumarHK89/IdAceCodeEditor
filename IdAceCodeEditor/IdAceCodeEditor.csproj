@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <BaseOutputPath>bin</BaseOutputPath>
+    <ApplicationIcon>getsitelogo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +13,10 @@
     <EmbeddedResource Remove="bin\**" />
     <None Remove="bin\**" />
     <Page Remove="bin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="getsitelogo.ico" />
   </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="LibGit2Sharp" Version="0.26.2" />

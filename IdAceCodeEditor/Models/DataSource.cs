@@ -2,15 +2,35 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
 namespace IdAceCodeEditor
 {
-    public class DataSource
+    public class DataSource : INotifyPropertyChanged
     {
-            public ObservableCollection<Framework> Frameworks{ get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+        public ObservableCollection<Framework> Frameworks{ get; set; }
+
+        Framework _SelectedFramework;
+        public Framework SelectedFramework
+        {
+            get { return _SelectedFramework; }
+            set
+            {
+                _SelectedFramework = value;
+                // Call OnPropertyChanged whenever the property is updated
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Sample> Samples { get; set; }
 
         private ICommand _guideMeCommand;
 

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:IdAceCodeEditor"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="IdAceCodeEditor" Height="500" Width="800">
+        Title="IDAceCodeEditor" Height="500" Width="800">
         <Window.Resources>
         <Style TargetType="TabItem">
             <Setter Property="Template">
@@ -62,7 +62,7 @@
             </Setter>
         </Style>
         <DataTemplate x:Key="tagContent">
-            <Border BorderBrush="Black" Background="Bisque"  Margin="5"  BorderThickness="1">
+            <Border BorderBrush="Black" Background="Cornsilk"  Margin="5" Padding="3"  BorderThickness="1">
                 <TextBlock Text="{Binding Name}" FontSize="10"
                                        HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
@@ -71,7 +71,7 @@
         </DataTemplate>
         <DataTemplate x:Key="sampleContent">
             <Expander HorizontalAlignment="Left" Header="{Binding Name}" Background="AliceBlue" 
-                                  ExpandDirection="Down" IsExpanded="False" 
+                                  ExpandDirection="Down" IsExpanded="{Binding IsSelected}" 
                                   Width="{Binding ActualWidth, ElementName=gridName}"
                   FontSize="20"  >
                 <Grid>
@@ -163,7 +163,8 @@
         <GroupBox Grid.Row="1" Header="List of samples available across multiple platforms" 
                   Margin="10" Padding="10">
 
-            <TabControl Name="tab" ItemTemplate="{StaticResource tabItemTemplate}"
+            <TabControl Name="tab" ItemTemplate="{StaticResource tabItemTemplate}" 
+                        SelectedItem="{Binding Path=SelectedFramework}"
          ContentTemplate="{StaticResource contentTemplate}"
           ItemsSource="{Binding Frameworks}" >
             </TabControl>

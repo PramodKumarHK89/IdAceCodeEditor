@@ -2,18 +2,36 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
 namespace IdAceCodeEditor
 {
-    public class Sample
+    public class Sample : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+        bool _IsSelected;
+        public bool IsSelected
+        {
+            get { return _IsSelected; }
+            set
+            {
+                _IsSelected = value;
+                // Call OnPropertyChanged whenever the property is updated
+                OnPropertyChanged();
+            }
+        }
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public string Type { get; set; }
-
+        public string PlatformType { get; set; }
         public string WorkingFolder { get; set; }
         public GitHubRepo GitHubRepoSettings{ get; set; }
         public ObservableCollection<Project> Projects { get; set; }

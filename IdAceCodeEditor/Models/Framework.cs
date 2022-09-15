@@ -11,6 +11,7 @@ namespace IdAceCodeEditor
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }
+        public string Type { get; set; }
         public ObservableCollection<Sample> Samples { get; set; }
        
     }
