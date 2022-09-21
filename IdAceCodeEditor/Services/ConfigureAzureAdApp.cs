@@ -38,7 +38,7 @@ namespace IdAceCodeEditor
                 try
                 {
                     authResult = await app.AcquireTokenInteractive(scope)
-                        .WithLoginHint("pramkum@pramkumlab.onmicrosoft.com")
+                       // .WithLoginHint("pramkum@pramkumlab.onmicrosoft.com")
                         .WithAccount(firstAccount)
                         .WithParentActivityOrWindow(new WindowInteropHelper(window).Handle)
                         .WithPrompt(Microsoft.Identity.Client.Prompt.SelectAccount)

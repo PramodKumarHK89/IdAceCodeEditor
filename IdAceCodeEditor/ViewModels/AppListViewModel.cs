@@ -241,7 +241,7 @@ namespace IdAceCodeEditor
             bRet = !_project.PortalSettings.IsHybridFlow.Equals("true", StringComparison.InvariantCultureIgnoreCase);
             if (!bRet)
             {
-                bRet = (bool)SelectedApp.Web.ImplicitGrantSettings?.EnableAccessTokenIssuance;
+                bRet = (bool)SelectedApp.Web.ImplicitGrantSettings?.EnableIdTokenIssuance;
             }
             if (!bRet)
             {

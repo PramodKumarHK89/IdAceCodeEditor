@@ -62,7 +62,7 @@
             </Setter>
         </Style>
         <DataTemplate x:Key="tagContent">
-            <Border BorderBrush="Black" Background="Cornsilk"  Margin="5" Padding="3"  BorderThickness="1">
+            <Border BorderBrush="Black"  Margin="5" Padding="3"  BorderThickness="1">
                 <TextBlock Text="{Binding Name}" FontSize="10"
                                        HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
@@ -84,12 +84,17 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <TextBlock TextWrapping="Wrap" Text="{Binding DisplayName}" 
-                                       HorizontalAlignment="Center" FontSize="15"
+                                       HorizontalAlignment="Left" Margin="5 0 0 0" FontSize="15"
                                    VerticalAlignment="Center">
                             </TextBlock>
-                            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                            <TextBlock Grid.Row="1"  Text="Tags:" 
+                                       HorizontalAlignment="Left"  Margin="5 0 0 0" FontSize="15"
+                                   VerticalAlignment="Center">
+                            </TextBlock>
+                            <StackPanel Grid.Row="2" Orientation="Horizontal">
                                 <ItemsControl ItemsSource="{Binding Tags}" 
                                               ItemTemplate="{StaticResource tagContent}">
                                     <ItemsControl.ItemsPanel>
@@ -142,9 +147,13 @@
         <DataTemplate x:Key="contentTemplate">
             <ContentPresenter>
                 <ContentPresenter.Content>
-                    <ItemsControl ItemsSource="{Binding Samples}" 
+                    <ScrollViewer HorizontalScrollBarVisibility="Hidden"  
+                                  VerticalScrollBarVisibility="Auto" >
+
+                        <ItemsControl ItemsSource="{Binding Samples}" 
                                   ItemTemplate="{StaticResource sampleContent}">
-                    </ItemsControl>
+                        </ItemsControl>
+                    </ScrollViewer>
                 </ContentPresenter.Content>
             </ContentPresenter>
         </DataTemplate>

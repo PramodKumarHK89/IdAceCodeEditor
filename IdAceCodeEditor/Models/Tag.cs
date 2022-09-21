@@ -6,6 +6,11 @@ namespace IdAceCodeEditor
 {
     public class Tag
     {
-        public string Name{ get; set; }
+        private string _name;
+        public string Name
+        {
+            get { return "#" + _name; }   // get method
+            set { _name = value; }  // set method
+        }
     }
 }

@@ -112,7 +112,7 @@ namespace IdAceCodeEditor.Views
                     lstScenario.Items);
                 itemsViewOriginal2.Filter = ((o) =>
                 {
-                    return ((Sample)o).Tags.Any(o=> o.Name.Equals("WithCertificate"));                    
+                    return ((Sample)o).Tags.Any(o=> o.Name.Equals("#WithCertificate"));                    
                 });
                 itemsViewOriginal2.Refresh();
             }
