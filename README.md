@@ -16,16 +16,15 @@
 
 - Navigate to the folder where the files are unzipped. Locate the `IdAceCodeEditor.exe` file and double click on it to execute it. Please refer the below screenshot.
 
-  ![image](https://user-images.githubusercontent.com/62542910/163816900-a9353835-764b-4b7c-ab12-f9250ebd2888.png)
+  ![image](https://user-images.githubusercontent.com/62542910/195050590-21a92dce-f944-4e01-9b9c-4f1caf2ae4ef.png)
 
 - The window should popup with the below screen. The window should let you to choose the platform in which you want to test/create the POC(Example- .NET CORE, Angular,JAVA, etc.). For the sake of articualting the usage of the tool, I'll take an example of .NET core and simple sign-in flow. Please refer the below screenshot for reference
 
-  ![image](https://user-images.githubusercontent.com/62542910/171006054-3bf46b15-41f2-4cb6-ad6b-c8719a81d231.png)
+  ![image](https://user-images.githubusercontent.com/62542910/195050739-c6e67497-7ced-49cd-8398-40d5b3ddc405.png)
 
 - After expanding the desired option(From the context of this article, it is sign-in flow in .NET core), you will see three sections (1)Description of the sample along with the relavent tags (2) `configure` button with Azure AD (3) `Configure` button with manual option . Please refer below screenshot
 
-  ![image](https://user-images.githubusercontent.com/62542910/171007604-d945607d-ce83-47a8-8846-85922006ee13.png)
-
+  
 - ##Configure-Connect with Azure Ad flow: 
  - If you click on the `configure- connect with Azure Ad` button, app will popup a Azure AD authetication prompt as shown in the below screenshot. Please enter the credential of the tenant under which you want to create the app registration. 
 
@@ -46,12 +45,16 @@
   
  - Tool gives two options here. Either select the existing pp registration or create the new one. As name suggestes, if you click on the `Create` button then, it creates the app regsitration for you. Before that, it could ask Application.ReadWrite permission. Please refer below screenshot
  
-  ![image](https://user-images.githubusercontent.com/62542910/171009268-b7cf82aa-da91-4464-b63c-998f205444a8.png)
+  ![image](https://user-images.githubusercontent.com/62542910/195052318-28d9c25c-6f58-4705-95f9-3fefc73940fd.png)
 
  - Another option is to select the existing app registration and skip the above step. This doesnt need Application.ReadWrite permission. 
+ 
+  ![image](https://user-images.githubusercontent.com/62542910/195053217-73b941b5-46fc-4a8d-a201-6dbbb60eaa8a.png)
+  
  - Both the above steps should display the below prerequites window if it is succesfully downloaded the sample.
   
-   ![image](https://user-images.githubusercontent.com/62542910/171009633-2a654965-0378-4df5-8ddf-89d40b011bd6.png)
+   ![image](https://user-images.githubusercontent.com/62542910/195053592-3a0284b3-4931-44f9-a43e-97cc40ad581f.png)
+
    
    - The section heiglighted in (1) will list the prerequites to run the sample code on your local machine.
    - The section heiglighted in (2) will provide the detailed instructions on how the sample would work.
