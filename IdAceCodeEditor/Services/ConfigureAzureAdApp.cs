@@ -122,6 +122,10 @@ namespace IdAceCodeEditor
                         {
                             appObject.Api.PreAuthorizedApplications = new List<PreAuthorizedApplication>() { new PreAuthorizedApplication() { AppId = dest } };
                         }
+                        if (item.Name.Equals("accessTokenAcceptedVersion"))
+                        {
+                            appObject.Api.RequestedAccessTokenVersion = Convert.ToInt32(item.Destination);
+                        }
                         await graphClient.Applications[appObject.Id]
                       .Request()
                       .UpdateAsync(appObject);

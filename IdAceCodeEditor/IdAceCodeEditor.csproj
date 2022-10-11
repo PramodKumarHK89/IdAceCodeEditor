@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <BaseOutputPath>bin</BaseOutputPath>
+    <BaseOutputPath>c:\t</BaseOutputPath>
     <ApplicationIcon>getsitelogo.ico</ApplicationIcon>
   </PropertyGroup>
 
